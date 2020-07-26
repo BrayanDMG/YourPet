@@ -12,9 +12,9 @@
         android:roundIcon="@mipmap/ic_pet_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ModificarDatosMascota"
-            android:parentActivityName=".MenuPrincipal"/>
-        <activity android:name=".DatosUsuario" />
+        <activity
+            android:name=".ModificarDatosMascota"
+            android:parentActivityName=".MenuPrincipal" />
         <activity
             android:name=".ModificarReporte"
             android:parentActivityName=".MenuPrincipal" />
@@ -24,9 +24,9 @@
         <activity
             android:name=".MascotasPerdidas"
             android:parentActivityName=".MenuPrincipal" />
-        <activity android:name=".ReportarPerdida"
-            android:parentActivityName=".MenuPrincipal"/>
-        <activity android:name=".DatosMascota" />
+        <activity
+            android:name=".ReportarPerdida"
+            android:parentActivityName=".MenuPrincipal" />
         <activity
             android:name=".MenuPrincipal"
             android:parentActivityName=".MainActivity" />

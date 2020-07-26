@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,6 +29,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
@@ -40,137 +40,261 @@ import java.util.Calendar;
 
 public class ModificarDatosMascota extends AppCompatActivity {
 
-    ImageView imagen;
-    FirebaseStorage firebaseStorage;
-    StorageReference storageReference;
-    FirebaseAuth firebaseAuth;
-    FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modificar_datos_mascota);
         setTitle("Modificar datos de la mascota");
-        /*
-        Spinner distritos = findViewById(R.id.spinner2);
-        String[] listadistritos = {"Ancón", "Ate Vitarte", "Barranco", "Breña ","Carabayllo","Callao","Chaclacayo",
-            "Chorrillos","Cieneguilla","Comas","El Agustino","Independencia","Jesús María","La Molina","La Victoria","Lima"};
 
-        ArrayAdapter<String> adapterSpinner = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_dropdown_item,
-                listadistritos);
-        distritos.setAdapter(adapterSpinner); */
 
-        firebaseStorage = FirebaseStorage.getInstance();
-        storageReference = firebaseStorage.getReference();
-        firebaseAuth = FirebaseAuth.getInstance();
-        currentUser = firebaseAuth.getCurrentUser();
-        imagen = findViewById(R.id.ImageM);
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+        StorageReference storageReference = firebaseStorage.getReference();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
 
     }
 
-    public void modificarDatos(View view) {
-        EditText nombreMascota = findViewById(R.id.mnombre);
-        EditText raza = findViewById(R.id.mraza);
-        EditText color = findViewById(R.id.mcolor);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        //Subir imagen con metadatos
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+
+
+            FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();//
+            FirebaseUser currentUser = firebaseAuth.getCurrentUser();//
+            final String uid = currentUser.getUid();//
+            final String displayName = currentUser.getDisplayName();//
+            FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();//
+            final StorageReference storageReference = firebaseStorage.getReference();//
+            StorageReference usuarioRef = storageReference.child(uid);//
+            usuarioRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+                @Override
+                public void onSuccess(ListResult listResult) {
+                    //Número de archivos dentro de la carpeta del usuario
+                    int numImage = listResult.getItems().size();
+
+                    //Método subir imagen
+                    subirImagenStorage(data, numImage);
+                }
+
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    subirImagenStorage(data, 0);
+                }
+            });
+
+        }
+
+
+    }
+
+    public void subirImagenStorage(Intent data, int i) {
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        final String uid = currentUser.getUid();
+        final String displayName = currentUser.getDisplayName();
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+        final StorageReference storageReference = firebaseStorage.getReference();
+        StorageReference usuarioRef = storageReference.child(uid);
+
+        //Ocultar botones hasta que termine de enviar la imagen
+        Button bsubir = findViewById(R.id.buttonSubir);
+        Button bregresar = findViewById(R.id.buttonRegresar);
+        ImageView imageView = findViewById(R.id.imageViewM);
+        bsubir.setEnabled(false);
+        bregresar.setEnabled(false);
+
+        Uri path = data.getData();
+        imageView.setImageURI(path);
+
+        //Crear Carpeta del usuario
+        StorageReference imagenesRef;
+        imagenesRef = storageReference.child(uid + "/" + displayName + i);
+
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        String date = df.format(c.getTime());
+
+        RadioButton perroB = findViewById(R.id.rBperro);
+        RadioButton gatoB = findViewById(R.id.rBgato);
+        RadioButton conejoB = findViewById(R.id.rBconejo);
+        RadioButton otrosB = findViewById(R.id.rBotros);
+        EditText nombreM = findViewById(R.id.mnombre);
+        EditText razaM = findViewById(R.id.mraza);
+        EditText colorM = findViewById(R.id.mcolor);
+        EditText añosM = findViewById(R.id.maños);
+        Spinner distritosM = findViewById(R.id.spinnermDistritos);
+        String tipo;
+
+        //Generar ID de la mascota
+        char[] aNom = (nombreM.getText().toString()).toCharArray();
+        char[] aDist = (distritosM.getSelectedItem().toString()).toCharArray();
+        String id;
+        if (perroB.isChecked() == true) {
+            tipo = "Perro";
+            id = "P";
+        } else if (gatoB.isChecked() == true) {
+            tipo = "Gato";
+            id = "G";
+        } else if (gatoB.isChecked() == true) {
+            tipo = "Conejo";
+            id = "C";
+        } else {
+            tipo = "Otro";
+            id = "O";
+        }
+
+        id = id + aNom[0] + añosM.getText().toString() + aDist[0] + aDist[1] + aDist[2];
+
+
+        final Mascota mascota = new Mascota(nombreM.getText().toString(), tipo, id, razaM.getText().toString(),
+                colorM.getText().toString(), añosM.getText().toString(), distritosM.getSelectedItem().toString());
+
+        StorageMetadata metadata = new StorageMetadata.Builder()
+                .setCustomMetadata("Nombre", mascota.getNombre())
+                .setCustomMetadata("Mascota", mascota.getTipo())
+                .setCustomMetadata("ID", mascota.getId())
+                .setCustomMetadata("Raza", mascota.getRaza())
+                .setCustomMetadata("Color", mascota.getColor())
+                .setCustomMetadata("Años", mascota.getAños())
+                .setCustomMetadata("Distrito", mascota.getDistrito())
+                .setCustomMetadata("Fecha",date).build();
+        imagenesRef.putFile(path, metadata)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.d("infoAapp", "subida exitosa");
+                        Toast.makeText(ModificarDatosMascota.this, "subida exitosa", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("infoAapp", "error al subir");
+                        Toast.makeText(ModificarDatosMascota.this, "error al subir", Toast.LENGTH_SHORT).show();
+
+                    }
+                })
+                .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
+                        long bytetransf = taskSnapshot.getBytesTransferred();
+                        long totalByteCount = taskSnapshot.getTotalByteCount();
+                        double progreso = (100.0 * bytetransf) / totalByteCount;
+                        TextView prog = findViewById(R.id.textViewprogreso);
+                        prog.setText("Porcentaje de subida " + Math.round(progreso) + " %");
+                        Log.d("infoAapp", "Porcentaje de subida " + Math.round(progreso) + " %");
+                        if (progreso == 100) {
+
+                            //Mostrar los botones y terminar la actividad
+                            Button bsubir = findViewById(R.id.buttonSubir);
+                            Button bregresar = findViewById(R.id.buttonRegresar);
+                            bsubir.setEnabled(true);
+                            bregresar.setEnabled(true);
+
+                            Intent intent = new Intent();
+                            intent.putExtra("info", mascota);
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
+                    }
+                });
+
+
+    }
+
+    //Comprobar campos y abrir galeria
+    public void subirImagenStream(View view) {
+
+        RadioButton perroB = findViewById(R.id.rBperro);
+        RadioButton RgatoB = findViewById(R.id.rBgato);
+        final EditText nombreM = findViewById(R.id.mnombre);
+        final EditText razaM = findViewById(R.id.mraza);
+        final EditText colorM = findViewById(R.id.mcolor);
+        final EditText añosM = findViewById(R.id.maños);
+        final Spinner distritosM = findViewById(R.id.spinnermDistritos);
         TextView textError = findViewById(R.id.textError1);
+        final String tipo;
+
         textError.setVisibility(View.INVISIBLE);
-        EditText años = findViewById(R.id.maños);
-        String textoaños = años.getText().toString();
-        RadioButton perro = findViewById(R.id.radioButtonmperro);
-        RadioButton gato = findViewById(R.id.radioButtonmgato);
-        Spinner distritos = findViewById(R.id.spinnermDistritos);
+        String textoaños = añosM.getText().toString();
 
         int i = 0;
 
-        if (nombreMascota.getText().length() == 0) {
-            nombreMascota.setError("Debe llenar este espacio");
+        if (nombreM.getText().length() == 0) {
+            nombreM.setError("Debe llenar este espacio");
             i++;
-        } else if (nombreMascota.getText().length() > 15) {
+        } else if (nombreM.getText().length() > 15) {
             textError.setText("Máximo 15 caracteres");
             textError.setVisibility(View.VISIBLE);
             i++;
         }
-        if (raza.getText().length() == 0) {
-            raza.setError("Debe llenar este espacio");
+        if (razaM.getText().length() == 0) {
+            razaM.setError("Debe llenar este espacio");
             i++;
-        } else if (raza.getText().length() > 20) {
+        } else if (razaM.getText().length() > 20) {
             textError.setText("Máximo 15 caracteres");
             textError.setVisibility(View.VISIBLE);
             i++;
         }
-        if (color.getText().length() == 0) {
-            color.setError("Debe llenar este espacio");
+        if (colorM.getText().length() == 0) {
+            colorM.setError("Debe llenar este espacio");
             i++;
-        } else if (color.getText().length() > 20) {
+        } else if (colorM.getText().length() > 20) {
             textError.setText("Máximo 20 caracteres");
             textError.setVisibility(View.VISIBLE);
             i++;
         }
-        if (años.getText().length() == 0) {
-            años.setError("Debe llenar este espacio");
+        if (añosM.getText().length() == 0) {
+            añosM.setError("Debe llenar este espacio");
             i++;
         }
-        if (años.getText().length() != 0) {
+        if (añosM.getText().length() != 0) {
             int numeroaños = Integer.parseInt(textoaños);
             if (numeroaños > 15) {
-                años.setError("Máximo 15");
+                añosM.setError("Máximo 15");
                 i++;
             }
         }
 
 
-        if (perro.isChecked() == true) {
-            ((TextView) findViewById(R.id.textView39)).setText("perro");
-        } else ((TextView) findViewById(R.id.textView39)).setText("gato");
-
-        String distritoselect = distritos.getSelectedItem().toString();
-        ((TextView) findViewById(R.id.textView42)).setText(distritoselect);
-        final String nomMascota = nombreMascota.getText().toString();
-
         if (i == 0) {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-            dialog.setTitle("Guardar los datos de " + nomMascota);
-            dialog.setMessage("Se modificarán los datos de la mascota y los anteriores se eliminarán." +
-                    " Debe seleccionar una foto de su galeria que identifique a " + nomMascota + " para " +
-                    "continuar con la modificación.");
-            dialog.setPositiveButton("ESCOGER FOTO Y SUBIR LOS DATOS", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    // Toast.makeText(ModificarDatosMascota.this, "Se modifico los datos de "+nomMascota, Toast.LENGTH_LONG).show();
-                    if (validarPermisos(1)) {
 
+
+            if (validarPermisos(1)) {
+
+                AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                dialog.setTitle("Guardar los datos de " + nombreM.getText());
+                dialog.setMessage("Se modificarán los datos anteriores por los nuevos datos ingresados." +
+                        " Debe seleccionar una foto de su galeria que identifique a " + nombreM.getText() + ". " +
+                        " Si completo correctamento los datos presiones ACTUALIZAR.");
+                dialog.setPositiveButton("ACTUALIZAR", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         int requestCode = 1;
                         intent.setType("image/");
                         startActivityForResult(intent, requestCode);
-
                     }
 
-//                    Intent intent = new Intent();
-//                    setResult(RESULT_OK, intent);
-//                    finish();
-                }
-            });
-            dialog.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(ModificarDatosMascota.this, "No se modifico ningún dato", Toast.LENGTH_LONG).show();
-                }
-            });
-            dialog.show();
+                });
+                dialog.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(ModificarDatosMascota.this, "No se modifico ningún dato", Toast.LENGTH_LONG).show();
+                    }
+                });
+                dialog.show();
+
+            }
+
         }
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, final int resultCode, @Nullable final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        String uid = currentUser.getUid();
-        String displayName = currentUser.getDisplayName();
-        StorageReference usuarioRef = storageReference.child(uid);
 
     }
 
@@ -191,14 +315,15 @@ public class ModificarDatosMascota extends AppCompatActivity {
         //super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 1) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                modificarDatos(null);
+                subirImagenStream(null);
             }
         }
     }
 
+
     public void atras(View view) {
         Intent intent = new Intent();
-        setResult(RESULT_OK, intent);
+        setResult(RESULT_CANCELED, intent);
         finish();
     }
 }

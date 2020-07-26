@@ -22,6 +22,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="20sp" />
 
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,30 +36,50 @@
                     android:id="@+id/textView35"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Tipo de mascota"
+                    android:text="Mascota"
                     android:textColor="#000000"
                     android:textSize="18sp" />
 
                 <RadioGroup
-                    android:layout_width="wrap_content"
+                    android:layout_width="97dp"
                     android:layout_height="wrap_content"
-                    android:checkedButton="@id/radioButtonmperro">
+                    android:checkedButton="@id/rBperro">
 
                     <RadioButton
-                        android:id="@+id/radioButtonmperro"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/rBperro"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Perro"
-                        android:textColor="#000000"
-                        android:textSize="18sp" />
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
                     <RadioButton
-                        android:id="@+id/radioButtonmgato"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/rBgato"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Gato"
-                        android:textColor="#000000"
-                        android:textSize="18sp" />
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <RadioButton
+                        android:id="@+id/rBconejo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Conejo"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <RadioButton
+                        android:id="@+id/rBotros"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Otros"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
                 </RadioGroup>
 
             </LinearLayout>
@@ -75,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Nombre de la mascota"
+                android:hint="Nombre"
                 android:inputType="textPersonName"
                 android:textAlignment="center" />
 
@@ -164,47 +188,39 @@
                 android:layout_height="20sp" />
 
             <ImageView
-                android:id="@+id/ImageM"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/imageViewM"
+                android:layout_width="match_parent"
+                android:layout_height="251dp"
                 app:srcCompat="@drawable/camara" />
+
+            <TextView
+                android:id="@+id/textViewprogreso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal">
+
+                <Button
+                    android:id="@+id/buttonRegresar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="atras"
+                    android:text="regresar" />
 
                 <Button
                     android:id="@+id/buttonSubir"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="modificarDatos"
-                    android:text="Subir Foto y guardar" />
+                    android:onClick="subirImagenStream"
+                    android:text="subir foto" />
 
-                <Button
-                    android:id="@+id/button14"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="atras"
-                    android:text="Atrás" />
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView39"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textColor="#FF9800"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/textView42"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textColor="#3F51B5"
-                android:textSize="18sp" />
 
         </LinearLayout>
     </ScrollView>

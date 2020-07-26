@@ -14,6 +14,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <Space
@@ -25,11 +26,11 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="256dp"
+                    android:id="@+id/imagePrincipal"
+                    android:layout_width="226dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/cachorro_schnauzer" />
+                    app:srcCompat="@drawable/camara" />
 
                 <LinearLayout
                     android:layout_width="150dp"
@@ -38,115 +39,143 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/textView51"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nombre"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textViewNombre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="NN"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold" />
+
+                    <TextView
                         android:id="@+id/textView50"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tipo de mascota"
-                        android:textColor="#000000"
-                        android:textSize="14sp" />
+                        android:text="Mascota"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textView56"
+                        android:id="@+id/textViewTipo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
+                        android:text="NN"
                         android:textAlignment="center"
-                        android:textSize="14sp" />
+                        android:textColor="@color/colorAccent"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/textView64"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="ID de la mascota"
+                        android:text="ID"
                         android:textAlignment="center"
-                        android:textColor="#000000" />
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textView65"
+                        android:id="@+id/textViewID"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:textAlignment="center" />
-
-                    <TextView
-                        android:id="@+id/textView51"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Nombre"
-                        android:textColor="#000000" />
-
-                    <TextView
-                        android:id="@+id/textView57"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:textAlignment="center" />
+                        android:text="NN"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/textView52"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Raza"
-                        android:textColor="#000000" />
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textView58"
+                        android:id="@+id/textViewRaza"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:textAlignment="center" />
+                        android:text="NN"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/textView53"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Color"
-                        android:textColor="#000000" />
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textView59"
+                        android:id="@+id/textViewColor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:textAlignment="center" />
+                        android:text="NN"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/textView54"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Años"
-                        android:textColor="#000000" />
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textView62"
+                        android:id="@+id/textViewAño"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:textAlignment="center" />
+                        android:text="NN"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/textView55"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Distrito"
-                        android:textColor="#000000" />
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textView63"
+                        android:id="@+id/textViewDistrito"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
-                        android:textAlignment="center" />
+                        android:text="NN"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold" />
 
                     <Button
                         android:id="@+id/button12"
                         android:layout_width="wrap_content"
                         android:layout_height="34dp"
-                        android:onClick="modificarDatosMascota"
+                        android:onClick="ingresarDatos"
                         android:text="modificar"
                         android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
+
+            <Button
+                android:id="@+id/button5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="cambiarCuenta"
+                android:text="cambiar cuenta" />
 
         </LinearLayout>
     </ScrollView>

@@ -23,21 +23,17 @@ import static com.google.firebase.auth.FirebaseAuth.*;
 
 public class MainActivity extends AppCompatActivity {
 
-    FirebaseAuth firebaseAuth;
-    FirebaseUser currentUser;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTitle("Inicio");
 
-        firebaseAuth = getInstance();
-        currentUser = firebaseAuth.getCurrentUser();
+        //Instancias Firebase
+        FirebaseAuth firebaseAuth = getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
-
-
+        //Comprobar si existe un usuario logueado
         if (currentUser != null) {
             Toast.makeText(this, "Usuario logueado", Toast.LENGTH_SHORT).show();
         } else {
@@ -48,10 +44,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void iniciarSesion(View view) {
-//        Intent intent = new Intent(MainActivity.this, IniciarSesion.class);
-//        startActivity(intent);
-//        startActivity(new Intent(this, IniciarSesion.class));
-//        finish();
+
+        //Cargar la lista de proveedores y mandar la activity
         List<AuthUI.IdpConfig> listaProveedores =
                 Arrays.asList(new AuthUI.IdpConfig.EmailBuilder().build(),
                         new AuthUI.IdpConfig.GoogleBuilder().build());
@@ -64,14 +58,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //La respuesta de la actividad
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        //Respuesta de iniciar sexión
         if (requestCode == 1) {
+            //Si no hay error continua
             if (resultCode == RESULT_OK) {
                 Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
-                firebaseAuth = getInstance();
-                currentUser = firebaseAuth.getCurrentUser();
+
+                //Instancias Firebase
+                FirebaseAuth firebaseAuth = getInstance();
+                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+                //Comprobar si su correo esta verificado. Si no está verificado se le mando un correo
                 Log.d("correo", "estado de correo " + currentUser.isEmailVerified());
                 if (!currentUser.isEmailVerified()) {
                     currentUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -96,25 +98,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    // Entrar a la página principal
     public void comenzar(View view) {
-//        Intent intent = new Intent(MainActivity.this,CrearCuenta.class);
-//        startActivity(intent);
-//        startActivity(new Intent(this, CrearCuenta.class));
-//        finish();
-        firebaseAuth = getInstance();
-        currentUser = firebaseAuth.getCurrentUser();
 
+        //Instancias Firebase
+        FirebaseAuth firebaseAuth = getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+
+        //Comprobar que hay un usuario logueado
         if (currentUser != null) {
             Log.d("correo", "estado de correo " + currentUser.isEmailVerified());
             if (currentUser.isEmailVerified()) {
+
+                //Datos del usuario
                 String email = currentUser.getEmail();
                 String uid = currentUser.getUid();
                 String displayName = currentUser.getDisplayName();
-                boolean emailVerified = currentUser.isEmailVerified();
-                startActivity(new Intent(this, MenuPrincipal.class));
+
+                //Abrir actividad Principal
+                Intent intent = new Intent(this, MenuPrincipal.class);
+                startActivity(intent);
+
                 Toast.makeText(this, "Bienvenido " + displayName, Toast.LENGTH_SHORT).show();
-                //finish();
+
             } else
                 Toast.makeText(this, "Verifique su correo y vuelva iniciar sesión", Toast.LENGTH_SHORT).show();
 
@@ -124,7 +130,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //Cerrar sesión del usuario
     public void cerrarSesion(View view) {
+
+        //Instancias Firebase
+        FirebaseAuth firebaseAuth = getInstance();
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
         if (currentUser != null) {
             AuthUI.getInstance().signOut(this).addOnSuccessListener(new OnSuccessListener<Void>() {
