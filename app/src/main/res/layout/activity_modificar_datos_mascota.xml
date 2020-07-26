@@ -100,8 +100,9 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Nombre"
-                android:inputType="textPersonName"
-                android:textAlignment="center" />
+                android:inputType="textCapCharacters"
+                android:textAlignment="center"
+                android:textAllCaps="true" />
 
             <Space
                 android:layout_width="match_parent"
@@ -113,8 +114,9 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Raza"
-                android:inputType="textPersonName"
-                android:textAlignment="center" />
+                android:inputType="textCapCharacters"
+                android:textAlignment="center"
+                android:textAllCaps="true" />
 
             <Space
                 android:layout_width="match_parent"
@@ -126,8 +128,9 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="Color"
-                android:inputType="textPersonName"
-                android:textAlignment="center" />
+                android:inputType="text|textCapCharacters"
+                android:textAlignment="center"
+                android:textAllCaps="true" />
 
             <Space
                 android:layout_width="match_parent"
@@ -149,7 +152,7 @@
 
                 <EditText
                     android:id="@+id/maños"
-                    android:layout_width="wrap_content"
+                    android:layout_width="96dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="0"
@@ -177,7 +180,7 @@
 
                 <Spinner
                     android:id="@+id/spinnermDistritos"
-                    android:layout_width="wrap_content"
+                    android:layout_width="253dp"
                     android:layout_height="wrap_content"
                     android:entries="@array/Distrito"
                     android:spinnerMode="dropdown" />

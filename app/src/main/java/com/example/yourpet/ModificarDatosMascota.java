@@ -135,6 +135,31 @@ public class ModificarDatosMascota extends AppCompatActivity {
         //Generar ID de la mascota
         char[] aNom = (nombreM.getText().toString()).toCharArray();
         char[] aDist = (distritosM.getSelectedItem().toString()).toCharArray();
+        String dist = "";
+        if(distritosM.getSelectedItem().toString().length()<=6){
+            dist = dist + aDist[0] + aDist[1] + aDist[2];
+        }else{
+            if(aDist[3]==' ' && aDist[4]!='J'&& aDist[0]!='S'){
+                dist = dist + aDist[0] + aDist[4] + aDist[5];
+            } else if (aDist[2]==' ') {
+                dist = dist + aDist[0] + aDist[3] + aDist[4];
+            }else if (aDist[4]=='A' && aDist[5]==' ') {
+                dist = dist + aDist[0] + aDist[6] + aDist[7];
+            }else if ((aDist[5]=='E'||aDist[5]=='O') && aDist[6]==' ') {
+                dist = dist + aDist[0] + aDist[7] + aDist[8];
+            }else if(aDist[3]==' ' && aDist[4]=='J'){
+                dist = dist + aDist[0] + aDist[4] + aDist[12];
+            }else if(aDist[3]==' ' && aDist[5]!='J' && aDist[0]=='S'){
+                dist = dist + aDist[0] + aDist[5] + aDist[6];
+            }else if(aDist[0]=='V' && aDist[6]=='E'){
+                dist = dist + aDist[0] + aDist[6] + aDist[9];
+            }else if(aDist[0]=='V' && aDist[6]=='M'){
+                dist = dist + aDist[0] + aDist[6] + aDist[16];
+            }else dist = dist + aDist[0] + aDist[1] + aDist[2];
+        }
+
+
+
         String id;
         if (perroB.isChecked() == true) {
             tipo = "Perro";
@@ -150,7 +175,8 @@ public class ModificarDatosMascota extends AppCompatActivity {
             id = "O";
         }
 
-        id = id + aNom[0] + añosM.getText().toString() + aDist[0] + aDist[1] + aDist[2];
+
+        id = id + aNom[0] + añosM.getText().toString() + dist;
 
 
         final Mascota mascota = new Mascota(nombreM.getText().toString(), tipo, id, razaM.getText().toString(),
