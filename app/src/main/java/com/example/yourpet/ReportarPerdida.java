@@ -18,18 +18,16 @@ public class ReportarPerdida extends AppCompatActivity {
     }
 
     public void publicarReporte(View view) {
-        EditText ultimavez = findViewById(R.id.ultimavez);
+        EditText descripcion = findViewById(R.id.text_descripcion);
         EditText celular = findViewById(R.id.celular);
-        TextView textError = findViewById(R.id.textError3);
         TextView fecha = findViewById(R.id.fecha);
-        textError.setVisibility(View.INVISIBLE);
+
         int i = 0;
-        if (ultimavez.getText().length() == 0) {
-            ultimavez.setError("Debe llenar este espacio");
+        if (descripcion.getText().length() == 0) {
+            descripcion.setError("Debe llenar este espacio");
             i++;
-        } else if (ultimavez.getText().length() > 50) {
-            textError.setText("Máximo 50 caracteres");
-            textError.setVisibility(View.VISIBLE);
+        } else if (descripcion.getText().length() > 50) {
+            descripcion.setError("Máximo 50 caracteres");
             i++;
         }
         if (fecha.getText().length() == 0) {

@@ -12,23 +12,10 @@ public class Mascota implements Serializable {
     private String color;
     private String años;
     private String distrito;
-    private Uri dir;
-
-
 
     public Mascota() {
     }
 
-    public Mascota(String nombre, String tipo, String id, String raza, String color, String años, String distrito, Uri dir) {
-        this.nombre = nombre;
-        this.tipo = tipo;
-        this.id = id;
-        this.raza = raza;
-        this.color = color;
-        this.años = años;
-        this.distrito = distrito;
-        this.dir = dir;
-    }
 
     public Mascota(String nombre, String tipo) {
         this.nombre = nombre;
@@ -43,13 +30,6 @@ public class Mascota implements Serializable {
         this.color = color;
         this.años = años;
         this.distrito = distrito;
-    }
-    public Uri getDir() {
-        return dir;
-    }
-
-    public void setDir(Uri dir) {
-        this.dir = dir;
     }
 
     public String getRaza() {

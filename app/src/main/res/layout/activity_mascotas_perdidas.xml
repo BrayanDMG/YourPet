@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context=".MascotasPerdidas">
 
@@ -47,22 +48,26 @@
 
             <Button
                 android:id="@+id/button16"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/custom_botton"
                 android:onClick="buscarPorID"
-                android:text="Buscar" />
+                android:text="Buscar"
+                android:textColor="#FFFFFF" />
         </LinearLayout>
 
     </LinearLayout>
 
-    <Space
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="20sp" />
+        android:layout_height="470dp" />
 
     <Button
-        android:id="@+id/info"
-        android:layout_width="wrap_content"
+        android:id="@+id/button4"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:onClick="informacionMascota"
-        android:text="Info" />
+        android:background="@drawable/custom_botton"
+        android:text="REGRESAR"
+        android:textColor="#FFFFFF" />
+
 </LinearLayout>

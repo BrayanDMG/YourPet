@@ -18,7 +18,7 @@
         android:layout_height="82dp"
         android:text="Bienvenido a Your Pet, la aplicación que te ayuda a encontrar a tu mascota"
         android:textAlignment="center"
-        android:textColor="@android:color/holo_blue_dark"
+        android:textColor="#3F51B5"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -28,11 +28,15 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="wrap_content"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/custom_botton"
         android:onClick="iniciarSesion"
-        android:text="INICIAR SESIÓN"
-        android:textSize="14sp" />
+        android:text="Iniciar Sesión"
+
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
     <Space
         android:layout_width="match_parent"
@@ -40,10 +44,15 @@
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="wrap_content"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/custom_botton"
         android:onClick="comenzar"
-        android:text="COMENZAR" />
+        android:text="Comenzar"
+
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
     <Space
         android:layout_width="match_parent"
@@ -51,10 +60,16 @@
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="wrap_content"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/custom_botton"
+        android:textColor="#FFFFFF"
         android:onClick="cerrarSesion"
-        android:text="cerrar sesión"
+        android:text="Cerrar Sesión"
+
+
+        android:textSize="14sp"
+        android:textStyle="bold"
         android:visibility="visible" />
 
 </LinearLayout>

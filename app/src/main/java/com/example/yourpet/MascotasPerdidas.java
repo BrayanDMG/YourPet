@@ -17,9 +17,9 @@ public class MascotasPerdidas extends AppCompatActivity {
     }
 
     public void informacionMascota(View view) {
-        Intent intent = new Intent(MascotasPerdidas.this, InformacionMascota.class);
-        int requestCode = 1;
-        startActivityForResult(intent, requestCode);
+//        Intent intent = new Intent(MascotasPerdidas.this, InformacionMascota.class);
+//        int requestCode = 1;
+//        startActivityForResult(intent, requestCode);
     }
 
     public void buscarPorID(View view) {
@@ -44,9 +44,9 @@ public class MascotasPerdidas extends AppCompatActivity {
 
 //            char[] caracter = cadena.toCharArray();
         if (i == 0) {
-            Intent intent = new Intent(MascotasPerdidas.this, InformacionMascota.class);
-            int requestCode = 2;
-            startActivityForResult(intent, requestCode);
+//            Intent intent = new Intent(MascotasPerdidas.this, InformacionMascota.class);
+//            int requestCode = 2;
+//            startActivityForResult(intent, requestCode);
         }
 
     }

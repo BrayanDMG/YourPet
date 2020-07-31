@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.Arrays;
 import java.util.List;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         //Comprobar si existe un usuario logueado
         if (currentUser != null) {
             Toast.makeText(this, "Usuario logueado", Toast.LENGTH_SHORT).show();
+
         } else {
             Toast.makeText(this, "Usuario no logueado", Toast.LENGTH_SHORT).show();
         }
@@ -103,11 +105,32 @@ public class MainActivity extends AppCompatActivity {
 
         //Instancias Firebase
         FirebaseAuth firebaseAuth = getInstance();
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        final FirebaseUser currentUser = firebaseAuth.getCurrentUser();
 
         //Comprobar que hay un usuario logueado
         if (currentUser != null) {
             Log.d("correo", "estado de correo " + currentUser.isEmailVerified());
+
+            if (!currentUser.isEmailVerified()) {
+
+                //Actualizar
+                UserProfileChangeRequest request = new UserProfileChangeRequest.Builder().setDisplayName(currentUser.getDisplayName()).build();
+                currentUser.updateProfile(request).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(MainActivity.this, "Verifique su correo. Si ya lo hizo " +
+                                "presione COMENZAR otra vez", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(MainActivity.this, "Hubo un problema al iniciar sesión" +
+                                ", vuelva a intentarlo", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
+
             if (currentUser.isEmailVerified()) {
 
                 //Datos del usuario
@@ -116,13 +139,13 @@ public class MainActivity extends AppCompatActivity {
                 String displayName = currentUser.getDisplayName();
 
                 //Abrir actividad Principal
-                Intent intent = new Intent(this, MenuPrincipal.class);
+                //Intent intent = new Intent(this, MenuPrincipal.class);
+                Intent intent = new Intent(this, PantallaPrincipal.class);
                 startActivity(intent);
 
                 Toast.makeText(this, "Bienvenido " + displayName, Toast.LENGTH_SHORT).show();
 
-            } else
-                Toast.makeText(this, "Verifique su correo y vuelva iniciar sesión", Toast.LENGTH_SHORT).show();
+            }//else Toast.makeText(this, "Verifique su correo e intentelo de nuevo", Toast.LENGTH_SHORT).show();
 
         } else {
             Toast.makeText(this, "Inicie sesión para comenzar", Toast.LENGTH_SHORT).show();
@@ -150,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-        } else{
+        } else {
             Toast.makeText(MainActivity.this, "No hay ningún usuario logueado", Toast.LENGTH_SHORT).show();
         }
     }
