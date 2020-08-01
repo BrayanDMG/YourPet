@@ -34,8 +34,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="0000"
-                android:inputType="number"
+                android:hint="Ingrese ID de la mascota"
+                android:inputType="text"
                 android:textAlignment="center" />
 
         </LinearLayout>
@@ -47,11 +47,10 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/button16"
+                android:id="@+id/button_buscarMascota"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/custom_botton"
-                android:onClick="buscarPorID"
                 android:text="Buscar"
                 android:textColor="#FFFFFF" />
         </LinearLayout>
@@ -59,15 +58,28 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/reciclyPerdidas"
         android:layout_width="match_parent"
-        android:layout_height="470dp" />
+        android:layout_height="247dp" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/button_regresar_principal"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:background="@drawable/custom_botton"
         android:text="REGRESAR"
         android:textColor="#FFFFFF" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="328dp"
+        android:layout_height="188dp"
+        app:srcCompat="@drawable/camara" />
+
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
 
 </LinearLayout>

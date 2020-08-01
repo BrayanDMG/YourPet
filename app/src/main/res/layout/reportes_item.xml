@@ -13,12 +13,12 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="222dp"
-            android:layout_height="284dp"
+            android:layout_height="320dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/camara" />
 
         <LinearLayout
-            android:layout_width="159dp"
+            android:layout_width="160dp"
             android:layout_height="320dp"
             android:layout_weight="1"
             android:orientation="vertical">
@@ -96,7 +96,7 @@
                 android:id="@+id/textView20"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
+                android:text="NN"
                 android:textAlignment="center"
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold" />
@@ -147,7 +147,6 @@
         android:id="@+id/textView18"
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        android:layout_marginTop="10dp"
         android:background="@color/colorPrimaryDark"
         android:text="TextView" />
 

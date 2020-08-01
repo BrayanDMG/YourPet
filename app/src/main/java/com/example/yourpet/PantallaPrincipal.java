@@ -57,6 +57,7 @@ public class PantallaPrincipal extends AppCompatActivity implements MascotaAdapt
         StorageReference firebaseStorageRef = FirebaseStorage.getInstance().getReference();
         StorageReference imagenStorageRef = firebaseStorageRef.child("USUARIOS").child(currentUser.getUid());
 
+        setTitle("Bienvenido: " + currentUser.getDisplayName());
 
         //Creacion del recyclerView
         final RecyclerView mRecyclerView = findViewById(R.id.recyclerView);
@@ -162,13 +163,17 @@ public class PantallaPrincipal extends AppCompatActivity implements MascotaAdapt
 
     @Override
     public void onItemClick(int position) {
-        Toast.makeText(this, "Normal click at position: " + position, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, uploadPet.get(position).getNombre(), Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
-    public void onWhatEverClick(int position) {
-        Toast.makeText(this, "Whatever click at position: " + position, Toast.LENGTH_SHORT).show();
+    public void onReportarClick(int position) {
+        Toast.makeText(this, "Reportar pérdida de  " + uploadPet.get(position).getNombre(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(PantallaPrincipal.this,ReportarPerdida.class);
+        DetallesMascota selectedItem = uploadPet.get(position);
+        intent.putExtra("datosMascota", selectedItem);
+        startActivity(intent);
 
     }
 
@@ -177,25 +182,59 @@ public class PantallaPrincipal extends AppCompatActivity implements MascotaAdapt
         final DetallesMascota selectedItem = uploadPet.get(position);
         final String url = selectedItem.getUrl();
 
-        StorageReference imageRR = FirebaseStorage.getInstance().getReferenceFromUrl(url);
-        imageRR.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(PantallaPrincipal.this);
+        alertDialog.setTitle("Eliminar a "+ selectedItem.getNombre());
+        alertDialog.setMessage("Está a punto de eliminar a "+ selectedItem.getNombre() +
+                ". Si quiere eliminarlo haga click en ELIMINAR");
+        alertDialog.setPositiveButton("ELIMINAR", new DialogInterface.OnClickListener() {
             @Override
-            public void onSuccess(Void aVoid) {
+            public void onClick(DialogInterface dialog, int which) {
+                StorageReference imageRR = FirebaseStorage.getInstance().getReferenceFromUrl(url);
+                imageRR.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
 
-                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference()
-                        .child("USUARIOS").child(currentUser.getUid()).child(selectedItem.getNombre());
-                mDatabaseRef.removeValue();
-                Toast.makeText(PantallaPrincipal.this, "La mascota que selecciono se elminino de su lista", Toast.LENGTH_SHORT).show();
+                        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                        DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference()
+                                .child("USUARIOS").child(currentUser.getUid()).child(selectedItem.getNombre());
+                        mDatabaseRef.removeValue();
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(PantallaPrincipal.this, "No se pudo eliminar la foto"
-                        + " "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        DatabaseReference mDataPerdiadRef = FirebaseDatabase.getInstance().getReference()
+                                .child("PERDIDAS").child(selectedItem.getId()+"/"+selectedItem.getUser_id());
+                        mDataPerdiadRef.removeValue();
+
+
+                        Toast.makeText(PantallaPrincipal.this, "La mascota que selecciono se elminino de su lista", Toast.LENGTH_SHORT).show();
+
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                        DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference()
+                                .child("USUARIOS").child(currentUser.getUid()).child(selectedItem.getNombre());
+                        mDatabaseRef.removeValue();
+
+                        DatabaseReference mDataPerdiadRef = FirebaseDatabase.getInstance().getReference()
+                                .child("PERDIDAS").child(selectedItem.getId()+"/"+selectedItem.getUser_id());
+                        mDataPerdiadRef.removeValue();
+
+                        Toast.makeText(PantallaPrincipal.this, "No se pudo eliminar la foto, pero si los datos de la mascota"
+                                + " "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
+        alertDialog.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(PantallaPrincipal.this, "No se elimino nada", Toast.LENGTH_SHORT).show();
+            }
+        });
+        alertDialog.show();
+
+
 
 
     }

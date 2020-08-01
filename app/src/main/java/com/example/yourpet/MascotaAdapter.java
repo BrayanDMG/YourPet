@@ -116,8 +116,8 @@ public class MascotaAdapter extends RecyclerView.Adapter<MascotaAdapter.MascotaV
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             menu.setHeaderTitle("Seleccione la Acción");
-            MenuItem doWhatever = menu.add(Menu.NONE,1,1,"Do Whatever");
-            MenuItem delete = menu.add(Menu.NONE,2,2,"Delete");
+            MenuItem doWhatever = menu.add(Menu.NONE,1,1,"Reportar Pérdida");
+            MenuItem delete = menu.add(Menu.NONE,2,2,"Eliminar Mascota");
 
             doWhatever.setOnMenuItemClickListener(this);
             delete.setOnMenuItemClickListener(this);
@@ -130,7 +130,7 @@ public class MascotaAdapter extends RecyclerView.Adapter<MascotaAdapter.MascotaV
                 if(position != RecyclerView.NO_POSITION){
                   switch (item.getItemId()){
                       case 1:
-                          mListener.onWhatEverClick(position);
+                          mListener.onReportarClick(position);
                           return  true;
                       case 2 :
                           mListener.onDeleteClick(position);
@@ -146,7 +146,7 @@ public class MascotaAdapter extends RecyclerView.Adapter<MascotaAdapter.MascotaV
 
     public interface OnItemClickListener{
         void onItemClick(int position);
-        void onWhatEverClick(int position);
+        void onReportarClick(int position);
         void onDeleteClick(int position);
     }
 

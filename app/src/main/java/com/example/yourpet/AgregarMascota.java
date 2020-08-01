@@ -214,7 +214,7 @@ public class AgregarMascota extends AppCompatActivity {
                         public void onSuccess(Uri uri) {
                             DetallesMascota uploadPet = new DetallesMascota(mascota.getNombre(), mascota.getTipo(),
                                     mascota.getId(), mascota.getRaza(), mascota.getColor()
-                                    , mascota.getAños(), mascota.getDistrito(), uri.toString());
+                                    , mascota.getAños(), mascota.getDistrito(), uri.toString(),currentUser.getUid());
                             DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference();
                             //String uploadId = mDatabaseRef.push().getKey();
                             mDatabaseRef.child("USUARIOS/" + currentUser.getUid() + "/" + mascota.getNombre()).setValue(uploadPet);
@@ -234,7 +234,7 @@ public class AgregarMascota extends AppCompatActivity {
                         public void onFailure(@NonNull Exception e) {
                             DetallesMascota uploadPet = new DetallesMascota(mascota.getNombre(), mascota.getTipo(),
                                     mascota.getId(), mascota.getRaza(), mascota.getColor()
-                                    , mascota.getAños(), mascota.getDistrito(), "");
+                                    , mascota.getAños(), mascota.getDistrito(), "",currentUser.getUid());
                             DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference();
                             //String uploadId = mDatabaseRef.push().getKey();
                             mDatabaseRef.child("USUARIOS/" + currentUser.getUid() + "/" + mascota.getNombre()).setValue(uploadPet);

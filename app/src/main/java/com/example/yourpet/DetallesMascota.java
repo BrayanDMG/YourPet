@@ -4,7 +4,9 @@ import android.net.Uri;
 
 import com.google.firebase.database.Exclude;
 
-public class DetallesMascota {
+import java.io.Serializable;
+
+public class DetallesMascota implements Serializable {
 
     private String nombre;
     private String tipo;
@@ -18,6 +20,16 @@ public class DetallesMascota {
     private String fecha;
     private String descripcion;
     private String user_id;
+
+    private DatosPerdida datosPerdida;
+
+    public DatosPerdida getDatosPerdida() {
+        return datosPerdida;
+    }
+
+    public void setDatosPerdida(DatosPerdida datosPerdida) {
+        this.datosPerdida = datosPerdida;
+    }
 
     public String getFecha() {
         return fecha;
@@ -55,8 +67,11 @@ public class DetallesMascota {
     public  DetallesMascota(){
 
     }
+    public  DetallesMascota(DatosPerdida datosPerdida){
 
-    public DetallesMascota(String nombre, String tipo, String id, String raza, String color, String años, String distrito, String url) {
+    }
+
+    public DetallesMascota(String nombre, String tipo, String id, String raza, String color, String años, String distrito, String url,String user_id) {
         this.nombre = nombre;
         this.tipo = tipo;
         this.id = id;
@@ -65,6 +80,7 @@ public class DetallesMascota {
         this.años = años;
         this.distrito = distrito;
         this.url = url;
+        this.user_id= user_id;
     }
 
     public String getNombre() {
@@ -130,4 +146,5 @@ public class DetallesMascota {
     public void setUrl(String url) {
         this.url = url;
     }
+
 }
